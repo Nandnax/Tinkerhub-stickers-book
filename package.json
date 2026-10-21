@@ -1,0 +1,9 @@
+
+{
+  "name": "tinkerhub-sticker-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node write-config.js config.js"
+  }
+}

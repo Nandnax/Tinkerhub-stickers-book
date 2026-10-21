@@ -1,0 +1,27 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Everyone can read the leaderboard; each visitor can only write their own row.
+    match /leaderboard/{uid} {
+      allow read: if true;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'count', 'have', 'updatedAt'])
+        && request.resource.data.name is string && request.resource.data.name.size() <= 32
+        && request.resource.data.count is int
+        && request.resource.data.count >= 0 && request.resource.data.count <= 200
+        && request.resource.data.have is list
+        && request.resource.data.have.size() == request.resource.data.count;
+      allow delete: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Everyone can read ratings; each visitor can only write their own.
+    match /ratings/{uid} {
+      allow read: if true;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['r', 'updatedAt'])
+        && request.resource.data.r is map && request.resource.data.r.size() <= 200;
+      allow delete: if request.auth != null && request.auth.uid == uid;
+    }
+  }
+}

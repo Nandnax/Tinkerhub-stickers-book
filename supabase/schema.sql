@@ -51,6 +51,13 @@ insert into public.stickers (id, title) values
   ('3_3876', 'Don''t Look (colour)'),
   ('3_3877', 'In Code We Trust'),
   ('3_3878', 'Moving Further')
+  ('up_weird', 'Nothing Is Too Weird to Build')
+  ('up_together', 'Together, We Make It Better')
+  ('up_never', 'Never Give Up')
+  ('up_hands', 'Get Your Hands Dirty')
+  ('ts_mindset', 'Making Is the New Mindset')
+  ('ts_build', 'Build Cool Stuff!')
+
 on conflict (id) do update set title = excluded.title;
 
 -- ---------------------------------------------------------------------
